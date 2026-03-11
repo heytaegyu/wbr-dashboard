@@ -9,7 +9,10 @@ from xml.etree import ElementTree as ET
 
 
 WORKBOOK_PATH = Path("/Users/taegyu/Downloads/2026 트레이스 WBR.xlsx")
-OUTPUT_PATH = Path("/Users/taegyu/Documents/New project/wbr_dashboard.html")
+OUTPUT_PATHS = [
+    Path("/Users/taegyu/Documents/New project/wbr_dashboard.html"),
+    Path("/Users/taegyu/Documents/New project/index.html"),
+]
 
 NS = {"a": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 
@@ -258,6 +261,39 @@ def build_dashboard() -> str:
       max-width: 1400px;
       margin: 0 auto;
       padding: 32px 20px 56px;
+      position: relative;
+    }}
+    .aux-link {{
+      position: sticky;
+      top: 16px;
+      z-index: 10;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+    }}
+    .aux-link a {{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #57534e;
+      background: rgba(255, 253, 248, 0.82);
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      box-shadow: 0 8px 20px rgba(24, 24, 27, 0.05);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }}
+    .aux-link a::after {{
+      content: "준비중";
+      display: inline-flex;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #efe7da;
+      font-size: 11px;
+      font-weight: 600;
     }}
     .hero {{
       display: grid;
@@ -418,6 +454,9 @@ def build_dashboard() -> str:
 </head>
 <body>
   <div class="wrap">
+    <div class="aux-link">
+      <a href="./claude.html">Claude Code</a>
+    </div>
     <section class="hero">
       <div class="card headline">
         <h1>Trace WBR<br />KPI Dashboard</h1>
@@ -443,7 +482,7 @@ def build_dashboard() -> str:
       {''.join(chart_blocks)}
     </section>
 
-    <div class="footer">오류값이 있는 `3월 2주차` 열은 제외했고, 대시보드는 원본 XLSX 데이터를 직접 파싱해 생성했습니다.</div>
+    <div class="footer">오류값이 있는 `3월 2주차` 열은 제외했고, 대시보드는 원본 XLSX 데이터를 직접 파싱해 생성했습니다. 마지막 검증 업데이트: 2026-03-11.</div>
   </div>
   <script type="application/json" id="wbr-data">{html.escape(json.dumps(payload, ensure_ascii=False))}</script>
 </body>
@@ -452,8 +491,10 @@ def build_dashboard() -> str:
 
 
 def main() -> None:
-    OUTPUT_PATH.write_text(build_dashboard(), encoding="utf-8")
-    print(OUTPUT_PATH)
+    dashboard = build_dashboard()
+    for output_path in OUTPUT_PATHS:
+        output_path.write_text(dashboard, encoding="utf-8")
+        print(output_path)
 
 
 if __name__ == "__main__":

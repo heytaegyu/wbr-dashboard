@@ -30,6 +30,39 @@
       max-width: 1400px;
       margin: 0 auto;
       padding: 32px 20px 56px;
+      position: relative;
+    }
+    .aux-link {
+      position: sticky;
+      top: 16px;
+      z-index: 10;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+    }
+    .aux-link a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #57534e;
+      background: rgba(255, 253, 248, 0.82);
+      border: 1px solid rgba(24, 24, 27, 0.08);
+      box-shadow: 0 8px 20px rgba(24, 24, 27, 0.05);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .aux-link a::after {
+      content: "준비중";
+      display: inline-flex;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #efe7da;
+      font-size: 11px;
+      font-weight: 600;
     }
     .hero {
       display: grid;
@@ -190,6 +223,9 @@
 </head>
 <body>
   <div class="wrap">
+    <div class="aux-link">
+      <a href="./claude.html">Claude Code</a>
+    </div>
     <section class="hero">
       <div class="card headline">
         <h1>Trace WBR<br />KPI Dashboard</h1>
