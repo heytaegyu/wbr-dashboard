@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WBR Dashboard Selector</title>
+  <style>
+    :root {
+      --bg: #f5efe4;
+      --card: rgba(255, 252, 246, 0.92);
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --line: rgba(31, 41, 55, 0.08);
+      --codex: #14532d;
+      --claude: #9a3412;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Avenir Next", "Pretendard", "Apple SD Gothic Neo", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(20, 83, 45, 0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(154, 52, 18, 0.12), transparent 30%),
+        var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .wrap {
+      width: min(980px, 100%);
+    }
+    .hero {
+      margin-bottom: 18px;
+      padding: 28px;
+      border-radius: 28px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .card {
+      padding: 22px;
+      border-radius: 24px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
+    }
+    .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .title {
+      margin: 10px 0 8px;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+    }
+    .desc {
+      min-height: 52px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      color: white;
+    }
+    .btn.codex { background: var(--codex); }
+    .btn.claude { background: var(--claude); }
+    .hint {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 252, 246, 0.72);
+      border: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.95em;
+    }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>WBR 대시보드<br />버전 선택</h1>
+      <p>같은 원본 데이터를 바탕으로 만든 결과물을 제작 도구별로 분리했습니다. 기본 배포 주소에서는 이 페이지가 먼저 열리고, 여기서 `Codex` 버전과 `Claude` 버전을 따로 선택할 수 있습니다.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="label">Version A</div>
+        <div class="title">Codex</div>
+        <div class="desc">현재 이 폴더에 생성된 WBR KPI 대시보드입니다.</div>
+        <div class="actions">
+          <a class="btn codex" href="./wbr_dashboard.html">Codex 열기</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="label">Version B</div>
+        <div class="title">Claude</div>
+        <div class="desc">클로드로 만든 결과물을 같은 저장소에 넣고 별도 파일로 연결하면 됩니다.</div>
+        <div class="actions">
+          <a class="btn claude" href="./claude.html">Claude 열기</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="hint">
+      Claude 결과물이 아직 없으면 이 폴더에 <code>claude.html</code> 이름으로 넣거나, 이 페이지의 링크만 원하는 파일명으로 바꾸면 됩니다.
+    </section>
+  </main>
+</body>
+</html>
