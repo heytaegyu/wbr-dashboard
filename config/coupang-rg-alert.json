@@ -1,0 +1,44 @@
+{
+  "quantity_threshold": -1,
+  "days_threshold": 28,
+  "max_items": 20,
+  "snapshot_hour_kst": 8,
+  "target_skus": [
+    {
+      "sku": "65272295",
+      "label": "1개입",
+      "units": 1,
+      "reference_price": 6900,
+      "product_cost": 1776,
+      "inbound_shipping": 2105,
+      "ad_cost": 345,
+      "selling_fee": 731,
+      "advance_settlement": 83,
+      "vat": 186
+    },
+    {
+      "sku": "66370744",
+      "label": "3개입",
+      "units": 3,
+      "reference_price": 14900,
+      "product_cost": 5329,
+      "inbound_shipping": 3400,
+      "ad_cost": 745,
+      "selling_fee": 1579,
+      "advance_settlement": 179,
+      "vat": 367
+    },
+    {
+      "sku": "66370743",
+      "label": "5개입",
+      "units": 5,
+      "reference_price": 22900,
+      "product_cost": 8882,
+      "inbound_shipping": 4025,
+      "ad_cost": 1145,
+      "selling_fee": 2427,
+      "advance_settlement": 275,
+      "vat": 615
+    }
+  ]
+}
