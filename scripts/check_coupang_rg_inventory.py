@@ -175,7 +175,7 @@ def parse_args() -> argparse.Namespace:
     quantity_threshold_default = env_or_config("COUPANG_LOW_STOCK_QTY", config, "quantity_threshold", -1)
     days_threshold_default = env_or_config("COUPANG_LOW_STOCK_DAYS", config, "days_threshold", 28)
     max_items_default = env_or_config("COUPANG_ALERT_MAX_ITEMS", config, "max_items", 20)
-    snapshot_hour_default = env_or_config("COUPANG_SNAPSHOT_HOUR_KST", config, "snapshot_hour_kst", 9)
+    snapshot_hour_default = env_or_config("COUPANG_SNAPSHOT_HOUR_KST", config, "snapshot_hour_kst", 8)
     parser = argparse.ArgumentParser(
         description="Query Coupang Rocket Growth inventory/orders and post a daily report to Slack."
     )
@@ -749,12 +749,19 @@ def build_stock_section(monitored_items: list[AlertItem]) -> str:
 
 
 def build_sales_section(sales_summaries: list[SalesSummary], report_context: ReportContext) -> str:
+    yesterday_total_qty = sum(summary.yesterday.quantity for summary in sales_summaries)
+    yesterday_total_sales = sum(summary.yesterday.gross_sales for summary in sales_summaries)
+    today_total_qty = sum(summary.today_snapshot.quantity for summary in sales_summaries)
+    today_total_sales = sum(summary.today_snapshot.gross_sales for summary in sales_summaries)
+
     lines = [":bar_chart: *판매 분석*", f"*어제 {report_context.yesterday_date.isoformat()}*"]
+    lines.append(f"• 합계: *{yesterday_total_qty}개 / {format_won(yesterday_total_sales)}*")
     for summary in sales_summaries:
         lines.append(
             f"• {summary.item.display_name}: *{summary.yesterday.quantity}개* / *{format_won(summary.yesterday.gross_sales)}*"
         )
-    lines.extend(["", f"_{report_context.snapshot_label} 참고_"])
+    lines.extend(["", f"_{report_context.snapshot_label} (참고)_"])
+    lines.append(f"• 합계: {today_total_qty}개 / {format_won(today_total_sales)}")
     for summary in sales_summaries:
         lines.append(
             f"• {summary.item.display_name}: {summary.today_snapshot.quantity}개 / {format_won(summary.today_snapshot.gross_sales)}"
@@ -768,15 +775,19 @@ def build_finance_period_lines(label: str, aggregate: AggregateBreakdown | None,
     heading = f"*{label}*" if not secondary else f"*{label}* _(참고)_"
     return [
         heading,
-        f"• 매출: *{format_won(aggregate.gross_sales)}*",
-        f"• 비용: *{format_won(aggregate.total_cost)}*",
-        f"  - 제품원가 {format_won(aggregate.product_cost)}",
-        f"  - 입출고+배송비 {format_won(aggregate.inbound_shipping)}",
-        f"  - 광고비 {format_won(aggregate.ad_cost)}",
-        f"  - 판매수수료 {format_won(aggregate.selling_fee)}",
-        f"  - 선정산 {format_won(aggregate.advance_settlement)}",
-        f"  - 부가세 {format_won(aggregate.vat)}",
-        f"• 이익: *{format_won(aggregate.estimated_profit)}* ({profit_rate_text(aggregate.estimated_profit, aggregate.gross_sales)})",
+        f"• 매출 *{format_won(aggregate.gross_sales)}* / 비용 *{format_won(aggregate.total_cost)}* / 이익 *{format_won(aggregate.estimated_profit)}* ({profit_rate_text(aggregate.estimated_profit, aggregate.gross_sales)})",
+        (
+            "• 비용구성 1: "
+            f"제품원가 {format_won(aggregate.product_cost)} / "
+            f"입출고+배송비 {format_won(aggregate.inbound_shipping)} / "
+            f"광고비 {format_won(aggregate.ad_cost)}"
+        ),
+        (
+            "• 비용구성 2: "
+            f"판매수수료 {format_won(aggregate.selling_fee)} / "
+            f"선정산 {format_won(aggregate.advance_settlement)} / "
+            f"부가세 {format_won(aggregate.vat)}"
+        ),
     ]
 
 
