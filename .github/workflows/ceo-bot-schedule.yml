@@ -10,12 +10,32 @@ on:
 jobs:
   send:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
+      - name: Validate required secrets
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.CEO_SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.CEO_SLACK_CHANNEL_ID }}
+        run: |
+          missing=0
+          if [ -z "$SLACK_BOT_TOKEN" ]; then
+            echo "::error::Missing GitHub Actions secret: CEO_SLACK_BOT_TOKEN"
+            missing=1
+          fi
+          if [ -z "$SLACK_CHANNEL_ID" ]; then
+            echo "::error::Missing GitHub Actions secret: CEO_SLACK_CHANNEL_ID"
+            missing=1
+          fi
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 

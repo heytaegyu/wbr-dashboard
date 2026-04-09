@@ -13,16 +13,23 @@ MESSAGES = {
 }
 
 
+def require_env(name: str) -> str:
+    value = os.environ.get(name, "").strip()
+    if not value:
+        raise RuntimeError(f"Missing required environment variable: {name}")
+    return value
+
+
 def build_payload(slot: str) -> dict:
     text = MESSAGES[slot]
     return {
-        "channel": os.environ["SLACK_CHANNEL_ID"],
+        "channel": require_env("SLACK_CHANNEL_ID"),
         "text": text,
     }
 
 
 def send_message(slot: str) -> None:
-    token = os.environ["SLACK_BOT_TOKEN"]
+    token = require_env("SLACK_BOT_TOKEN")
     payload = json.dumps(build_payload(slot)).encode("utf-8")
     request = urllib.request.Request(
         "https://slack.com/api/chat.postMessage",
@@ -47,10 +54,10 @@ def main() -> int:
         return 1
 
     try:
-      send_message(sys.argv[1])
+        send_message(sys.argv[1])
     except (KeyError, OSError, urllib.error.URLError, RuntimeError, json.JSONDecodeError) as exc:
-      print(f"Failed to send CEO prompt: {exc}", file=sys.stderr)
-      return 1
+        print(f"Failed to send CEO prompt: {exc}", file=sys.stderr)
+        return 1
 
     return 0
 
