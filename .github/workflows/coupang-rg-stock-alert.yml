@@ -1,0 +1,52 @@
+name: Coupang RG Stock Alert
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 23 * * *"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Validate required secrets
+        env:
+          COUPANG_ACCESS_KEY: ${{ secrets.COUPANG_ACCESS_KEY }}
+          COUPANG_SECRET_KEY: ${{ secrets.COUPANG_SECRET_KEY }}
+          COUPANG_VENDOR_ID: ${{ secrets.COUPANG_VENDOR_ID }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          missing=0
+          for name in COUPANG_ACCESS_KEY COUPANG_SECRET_KEY COUPANG_VENDOR_ID SLACK_WEBHOOK_URL; do
+            if [ -z "$(printenv "$name")" ]; then
+              echo "::error::Missing GitHub Actions secret: $name"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Send daily report
+        env:
+          COUPANG_ACCESS_KEY: ${{ secrets.COUPANG_ACCESS_KEY }}
+          COUPANG_SECRET_KEY: ${{ secrets.COUPANG_SECRET_KEY }}
+          COUPANG_VENDOR_ID: ${{ secrets.COUPANG_VENDOR_ID }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          COUPANG_LOW_STOCK_QTY: ${{ vars.COUPANG_LOW_STOCK_QTY || '' }}
+          COUPANG_LOW_STOCK_DAYS: ${{ vars.COUPANG_LOW_STOCK_DAYS || '' }}
+          COUPANG_ALERT_MAX_ITEMS: ${{ vars.COUPANG_ALERT_MAX_ITEMS || '' }}
+          COUPANG_TARGET_SKUS: ${{ vars.COUPANG_TARGET_SKUS || '' }}
+          COUPANG_SNAPSHOT_HOUR_KST: ${{ vars.COUPANG_SNAPSHOT_HOUR_KST || '' }}
+        run: |
+          python3 scripts/check_coupang_rg_inventory.py --send-healthy-summary
