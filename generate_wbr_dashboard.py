@@ -30,55 +30,59 @@ RIGHT_AXIS = "#f55a14"
 TEXT = "#3f3f46"
 GRID = "#d7dfeb"
 BORDER = "#111111"
+PAGE_BG = "#f7f7f5"
+
+WEEKLY_COLS = ["B", "C", "D", "E", "F", "G"]
+MONTHLY_COLS = ["M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"]
 
 MONEY_METRICS = {
-    "\uc21c\ub9e4\ucd9c",
-    "\ub9e4\ucd9c\ucd1d\uc774\uc775",
-    "\uacf5\ud5cc\uc774\uc775",
-    "\uc601\uc5c5\uc774\uc775",
-    "\uc601\uc5c5\ud604\uae08\ud750\ub984 (OCF)",
-    "\ud604\uae08\uc794\uc561",
-    "\ub9c8\ucf00\ud305\ube44: \ub0b4\ubd80 (\uad11\uace0)",
-    "\ub9c8\ucf00\ud305\ube44: \uc678\ubd80 (\uccb4\ud5d8\ub2e8, \uc2ac\ub86f)",
-    "\ubcc0\ub3d9\ube44",
-    "\uace0\uc815\ube44",
-    "\uac1d\ub2e8\uac00 (AOV)",
-    "\uc8fc\ubb38\ub2f9 \ub9c8\ucf00\ud305\ube44",
+    "총매출",
+    "순매출",
+    "매출총이익",
+    "공헌이익",
+    "영업이익",
+    "영업현금흐름 (OCF)",
+    "영업현금흐름",
+    "변동비",
+    "고정비",
+    "현금잔액",
+    "마케팅비: 내부 (광고)",
+    "마케팅비: 외부 (체험단, 슬롯)",
+    "실질 객단가 (AOV)",
+    "주문당 마케팅비",
 }
 
 PERCENT_METRICS = {
-    "\uacf5\ud5cc\uc774\uc775\ub960",
-    "\uc601\uc5c5\uc774\uc775\ub960",
-    "\uc804\ud658\uc728 (CVR)",
-    "TACOS (\ucd1d \ub9c8\ucf00\ud305\ube44%)",
-    "ROAS (\ucfe0\ud321\uad11\uace0)",
-    "\ub9c8\ucf00\ud305(\uc678\ubd80) ROI",
+    "공헌이익률",
+    "영업이익률",
+    "실질 전환율 (CVR)",
+    "TACOS (총 마케팅비%)",
 }
 
-DAYS_METRICS = {"\u2514 \uc7ac\uace0 \ud655\ubcf4\uc77c\uc218 (DOS)"}
+RATIO_METRICS = {
+    "ROAS",
+    "ROAS (쿠팡광고)",
+    "마케팅(외부) ROI",
+}
 
-METRIC_ORDER = [
-    "\uc21c\ub9e4\ucd9c",
-    "\ub9e4\ucd9c\ucd1d\uc774\uc775",
-    "\uacf5\ud5cc\uc774\uc775",
-    "\uacf5\ud5cc\uc774\uc775\ub960",
-    "\uc601\uc5c5\uc774\uc775",
-    "\uc601\uc5c5\ud604\uae08\ud750\ub984 (OCF)",
-    "\uc21c\ubc29\ubb38\uc790\uc218",
-    "\uc21c\uc8fc\ubb38\uc218",
-    "\uc7ac\uace0\uc218\ub7c9",
-]
+DAYS_METRICS = {"└ 재고 확보일수 (DOS)"}
 
-METRIC_META = {
-    "\uc21c\ub9e4\ucd9c": {"title": "1. Net Revenue ($ K)", "legend": ("Net Revenue - CY", "Net Revenue - Trend")},
-    "\ub9e4\ucd9c\ucd1d\uc774\uc775": {"title": "2. Gross Profit ($ K)", "legend": ("Gross Profit - CY", "Gross Profit - Trend")},
-    "\uacf5\ud5cc\uc774\uc775": {"title": "3. Contribution Profit ($ K)", "legend": ("Contribution Profit - CY", "Contribution Profit - Trend")},
-    "\uacf5\ud5cc\uc774\uc775\ub960": {"title": "4. Contribution Margin (%)", "legend": ("Contribution Margin - CY", "Contribution Margin - Trend")},
-    "\uc601\uc5c5\uc774\uc775": {"title": "5. Operating Profit ($ K)", "legend": ("Operating Profit - CY", "Operating Profit - Trend")},
-    "\uc601\uc5c5\ud604\uae08\ud750\ub984 (OCF)": {"title": "6. Operating Cash Flow ($ K)", "legend": ("Operating Cash Flow - CY", "Operating Cash Flow - Trend")},
-    "\uc21c\ubc29\ubb38\uc790\uc218": {"title": "7. Net Visitors", "legend": ("Net Visitors - CY", "Net Visitors - Trend")},
-    "\uc21c\uc8fc\ubb38\uc218": {"title": "8. Net Orders", "legend": ("Net Orders - CY", "Net Orders - Trend")},
-    "\uc7ac\uace0\uc218\ub7c9": {"title": "9. Inventory Units", "legend": ("Inventory - CY", "Inventory - Trend")},
+COUNT_METRICS = {
+    "순방문자수",
+    "순주문수",
+    "└ 체험단 주문수",
+    "재고수량",
+}
+
+SECTION_HEADER_ROWS = range(7, 34)
+SUMMARY_LABELS = ("LastWk", "WoW", "6W Avg", "MTD", "QTD", "YTD", "MoM")
+TITLE_OVERRIDES = {
+    "영업현금흐름 (OCF)": "영업현금흐름 (OCF)",
+    "실질 전환율 (CVR)": "실질 전환율 (CVR)",
+    "실질 객단가 (AOV)": "실질 객단가 (AOV)",
+    "TACOS (총 마케팅비%)": "TACOS",
+    "└ 체험단 주문수": "체험단 주문수",
+    "└ 재고 확보일수 (DOS)": "재고 확보일수 (DOS)",
 }
 
 
@@ -155,10 +159,33 @@ def parse_number(raw: Optional[str]) -> Optional[float]:
         return None
 
 
+def metric_kind(metric: str) -> str:
+    if metric in MONEY_METRICS:
+        return "money"
+    if metric in PERCENT_METRICS:
+        return "percent"
+    if metric in RATIO_METRICS:
+        return "ratio"
+    if metric in DAYS_METRICS:
+        return "days"
+    return "count"
+
+
+def money_decimals(value: Optional[float]) -> int:
+    if value is None:
+        return 0
+    scaled = abs(value)
+    if scaled >= 100:
+        return 0
+    if scaled >= 10:
+        return 1
+    return 2
+
+
 def scale_value(metric: str, value: Optional[float]) -> Optional[float]:
     if value is None:
         return None
-    if metric in MONEY_METRICS:
+    if metric_kind(metric) == "money":
         return value / 1000
     return value
 
@@ -167,26 +194,31 @@ def format_scaled(metric: str, value: Optional[float], decimals: int = 0) -> str
     if value is None:
         return "-"
     scaled = scale_value(metric, value)
-    if scaled is None:
-        return "-"
-    if metric in PERCENT_METRICS:
+    kind = metric_kind(metric)
+    if kind == "percent":
         return f"{scaled * 100:.1f}%"
-    if metric in DAYS_METRICS:
-        return f"{scaled:.0f} Days"
-    if metric in MONEY_METRICS:
-        return f"{scaled:.{decimals}f}K"
+    if kind == "ratio":
+        return f"{scaled:.2f}x"
+    if kind == "days":
+        return f"{scaled:.0f}일"
+    if kind == "money":
+        final_decimals = decimals if decimals else money_decimals(scaled)
+        return f"{scaled:.{final_decimals}f}K"
     return f"{scaled:,.0f}"
 
 
 def format_axis(metric: str, value: float) -> str:
-    if metric in PERCENT_METRICS:
+    kind = metric_kind(metric)
+    if kind == "percent":
         return f"{value * 100:.0f}%"
-    if metric in DAYS_METRICS:
+    if kind == "ratio":
+        return f"{value:.1f}x"
+    if kind == "days":
         return f"{value:.0f}"
-    if metric in MONEY_METRICS:
-        return f"{value:.0f}K"
+    if kind == "money":
+        return f"{value:.{money_decimals(value)}f}K"
     if abs(value) >= 1000:
-        return f"{value/1000:.1f}K"
+        return f"{value / 1000:.1f}K"
     return f"{value:.0f}"
 
 
@@ -194,24 +226,28 @@ def format_point(metric: str, value: Optional[float]) -> str:
     if value is None:
         return "-"
     scaled = scale_value(metric, value)
-    if metric in PERCENT_METRICS:
+    kind = metric_kind(metric)
+    if kind == "percent":
         return f"{scaled * 100:.1f}"
-    if metric in DAYS_METRICS:
+    if kind == "ratio":
+        return f"{scaled:.2f}"
+    if kind == "days":
         return f"{scaled:.0f}"
-    if metric in MONEY_METRICS:
-        return f"{scaled:.0f}"
+    if kind == "money":
+        return f"{scaled:.{money_decimals(scaled)}f}"
     return f"{scaled:,.0f}"
 
 
-def format_change(metric: str, value: Optional[float]) -> str:
+def format_change(value: Optional[float]) -> str:
     if value is None:
         return "-"
-    if metric in PERCENT_METRICS:
-        return f"{value * 100:+.1f}%p"
     return f"{value * 100:+.1f}%"
 
 
 def nice_bounds(values: List[float], include_zero: bool = False) -> tuple[float, float]:
+    if not values:
+        return (0, 1)
+
     v_min = min(values)
     v_max = max(values)
     if include_zero:
@@ -223,22 +259,17 @@ def nice_bounds(values: List[float], include_zero: bool = False) -> tuple[float,
 
     span = v_max - v_min
     padding = span * 0.15
-    v_min -= padding
-    v_max += padding
-    if include_zero:
-        v_min = min(v_min, 0)
-        v_max = max(v_max, 0)
-    return v_min, v_max
+    return v_min - padding, v_max + padding
 
 
-def rolling_trend(series: List[Optional[float]]) -> List[Optional[float]]:
+def rolling_average(series: List[Optional[float]], window: int = 3) -> List[Optional[float]]:
     values: List[Optional[float]] = []
     for idx, value in enumerate(series):
         if value is None:
             values.append(None)
             continue
-        window = [item for item in series[max(0, idx - 2) : idx + 1] if item is not None]
-        values.append(sum(window) / len(window))
+        window_values = [item for item in series[max(0, idx - window + 1) : idx + 1] if item is not None]
+        values.append(sum(window_values) / len(window_values))
     return values
 
 
@@ -263,26 +294,104 @@ def path_from_points(points: List[tuple[float, float]]) -> str:
     return " ".join(parts)
 
 
-def chart_svg(metric: str, labels: List[str], series: List[Optional[float]]) -> str:
-    scaled_series = [scale_value(metric, value) for value in series]
-    trend_series = [scale_value(metric, value) for value in rolling_trend(series)]
+def slugify(text: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", text.lower())
+    return slug.strip("-") or "section"
 
-    actual_values = [value for value in scaled_series if value is not None]
-    trend_values = [value for value in trend_series if value is not None]
-    left_min, left_max = nice_bounds(actual_values, include_zero=any(v < 0 for v in actual_values))
-    right_min, right_max = nice_bounds(trend_values, include_zero=any(v < 0 for v in trend_values))
+
+def title_text(metric: str, index: int) -> str:
+    cleaned = TITLE_OVERRIDES.get(metric, metric.replace("└ ", "").strip())
+    kind = metric_kind(metric)
+    if kind == "money":
+        unit = "(₩ K)"
+    elif kind == "percent":
+        unit = "(%)"
+    elif kind == "ratio":
+        unit = "(x)"
+    elif kind == "days":
+        unit = "(일)"
+    else:
+        unit = ""
+    suffix = f" {unit}" if unit else ""
+    return f"{index}. {cleaned}{suffix}"
+
+
+def build_section_blocks(row_map: Dict[int, Dict[str, Optional[str]]], month_index: int) -> List[Dict[str, object]]:
+    sections: List[Dict[str, object]] = []
+    current_section: Optional[Dict[str, object]] = None
+    metric_index = 1
+    section_index = 1
+
+    for row_num in SECTION_HEADER_ROWS:
+        row = row_map.get(row_num, {})
+        label = (row.get("A") or "").strip()
+        if not label:
+            continue
+
+        weekly_has_data = any(parse_number(row.get(col)) is not None for col in WEEKLY_COLS)
+        monthly_has_data = any(parse_number(row.get(col)) is not None for col in MONTHLY_COLS)
+
+        if not weekly_has_data and not monthly_has_data:
+            current_section = {"title": label, "id": f"section-{section_index}", "metrics": []}
+            sections.append(current_section)
+            section_index += 1
+            continue
+
+        if current_section is None:
+            current_section = {"title": "기타 지표", "id": "misc", "metrics": []}
+            sections.append(current_section)
+
+        payload = {
+            "metric": label,
+            "metricId": f"metric-{metric_index}",
+            "title": title_text(label, metric_index),
+            "weekly": [parse_number(row.get(col)) for col in WEEKLY_COLS],
+            "monthly": [parse_number(row.get(col)) for col in MONTHLY_COLS],
+            "wow": parse_number(row.get("H")),
+            "avg6": parse_number(row.get("I")),
+            "qtd": parse_number(row.get("J")),
+            "ytd": parse_number(row.get("K")),
+            "mom": parse_number(row.get("L")),
+            "mtd": parse_number(row.get(MONTHLY_COLS[month_index])) if 0 <= month_index < len(MONTHLY_COLS) else None,
+        }
+        current_section["metrics"].append(payload)
+        metric_index += 1
+
+    return [section for section in sections if section["metrics"]]
+
+
+def chart_svg(metric: str, weekly_labels: List[str], month_labels: List[str], weekly: List[Optional[float]], monthly: List[Optional[float]]) -> str:
+    scaled_weekly = [scale_value(metric, value) for value in weekly]
+    scaled_monthly = [scale_value(metric, value) for value in monthly]
+    trend_weekly = [scale_value(metric, value) for value in rolling_average(weekly)]
+    trend_monthly = [scale_value(metric, value) for value in rolling_average(monthly)]
+
+    weekly_values = [value for value in scaled_weekly + trend_weekly if value is not None]
+    monthly_values = [value for value in scaled_monthly + trend_monthly if value is not None]
+
+    include_zero_weekly = any((value or 0) < 0 for value in weekly_values)
+    include_zero_monthly = any((value or 0) < 0 for value in monthly_values)
+    left_min, left_max = nice_bounds(weekly_values, include_zero=include_zero_weekly)
+    right_min, right_max = nice_bounds(monthly_values, include_zero=include_zero_monthly)
 
     width = 1320
-    height = 470
+    height = 500
     left = 130
     right = 1160
     top = 58
-    bottom = 350
+    bottom = 352
+    weekly_end = 430
+    monthly_start = 520
 
-    def x_pos(idx: int) -> float:
-        if len(labels) == 1:
-            return (left + right) / 2
-        return left + (right - left) * idx / (len(labels) - 1)
+    def weekly_x(idx: int) -> float:
+        if len(weekly_labels) == 1:
+            return (left + weekly_end) / 2
+        return left + (weekly_end - left) * idx / (len(weekly_labels) - 1)
+
+    def monthly_x(idx: int) -> float:
+        if len(month_labels) == 1:
+            return (monthly_start + right) / 2
+        return monthly_start + (right - monthly_start) * idx / (len(month_labels) - 1)
 
     def y_left(value: float) -> float:
         return bottom - (value - left_min) * (bottom - top) / (left_max - left_min)
@@ -307,33 +416,55 @@ def chart_svg(metric: str, labels: List[str], series: List[Optional[float]]) -> 
     if left_min < 0 < left_max:
         zero_y = y_left(0)
         grid.append(f'<line x1="{left}" y1="{zero_y:.1f}" x2="{right}" y2="{zero_y:.1f}" class="zero-line" />')
+    elif right_min < 0 < right_max:
+        zero_y = y_right(0)
+        grid.append(f'<line x1="{left}" y1="{zero_y:.1f}" x2="{right}" y2="{zero_y:.1f}" class="zero-line" />')
 
-    trend_points = [(x_pos(idx), y_right(value)) for idx, value in enumerate(trend_series) if value is not None]
-    actual_points = [(x_pos(idx), y_left(value)) for idx, value in enumerate(scaled_series) if value is not None]
+    weekly_actual_points = [(weekly_x(idx), y_left(value)) for idx, value in enumerate(scaled_weekly) if value is not None]
+    weekly_trend_points = [(weekly_x(idx), y_left(value)) for idx, value in enumerate(trend_weekly) if value is not None]
+    monthly_actual_points = [(monthly_x(idx), y_right(value)) for idx, value in enumerate(scaled_monthly) if value is not None]
+    monthly_trend_points = [(monthly_x(idx), y_right(value)) for idx, value in enumerate(trend_monthly) if value is not None]
 
     x_labels = []
-    for idx, label in enumerate(labels):
-        x = x_pos(idx)
+    for idx, label in enumerate(weekly_labels):
+        x = weekly_x(idx)
         x_labels.append(
-            f'<text x="{x:.1f}" y="{bottom + 48}" transform="rotate(-32 {x:.1f} {bottom + 48})" text-anchor="end" class="x-axis">{html.escape(label.lower())}</text>'
+            f'<text x="{x:.1f}" y="{bottom + 50}" transform="rotate(-32 {x:.1f} {bottom + 50})" text-anchor="end" class="x-axis">{html.escape(label)}</text>'
+        )
+    for idx, label in enumerate(month_labels):
+        x = monthly_x(idx)
+        x_labels.append(
+            f'<text x="{x:.1f}" y="{bottom + 50}" transform="rotate(-32 {x:.1f} {bottom + 50})" text-anchor="end" class="x-axis">{html.escape(label)}</text>'
         )
 
     point_labels = []
-    for idx, value in enumerate(scaled_series):
+    for idx, value in enumerate(weekly):
         if value is None:
             continue
-        x = x_pos(idx)
-        y = y_left(value)
+        x = weekly_x(idx)
+        y = y_left(scale_value(metric, value))
         point_labels.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="8" class="actual-dot" />')
         point_labels.append(
-            f'<text x="{x:.1f}" y="{y - 18:.1f}" text-anchor="middle" class="point-label">{html.escape(format_point(metric, series[idx]))}</text>'
+            f'<text x="{x:.1f}" y="{y - 18:.1f}" text-anchor="middle" class="point-label">{html.escape(format_point(metric, value))}</text>'
+        )
+    for idx, value in enumerate(monthly):
+        if value is None:
+            continue
+        x = monthly_x(idx)
+        y = y_right(scale_value(metric, value))
+        point_labels.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="8" class="actual-dot" />')
+        point_labels.append(
+            f'<text x="{x:.1f}" y="{y - 18:.1f}" text-anchor="middle" class="point-label">{html.escape(format_point(metric, value))}</text>'
         )
 
     return f"""
     <svg viewBox="0 0 {width} {height}" class="chart" role="img" aria-label="{html.escape(metric)} chart">
       {''.join(grid)}
-      <path d="{path_from_points(trend_points)}" class="trend-line" />
-      <path d="{path_from_points(actual_points)}" class="actual-line" />
+      <path d="{path_from_points(weekly_trend_points)}" class="trend-line" />
+      <path d="{path_from_points(monthly_trend_points)}" class="trend-line" />
+      <path d="{path_from_points(weekly_actual_points)}" class="actual-line" />
+      <path d="{path_from_points(monthly_actual_points)}" class="actual-line" />
+      <line x1="{weekly_end + 36}" y1="{top}" x2="{weekly_end + 36}" y2="{bottom + 12}" class="split-line" />
       {''.join(point_labels)}
       {''.join(x_labels)}
     </svg>
@@ -341,14 +472,15 @@ def chart_svg(metric: str, labels: List[str], series: List[Optional[float]]) -> 
 
 
 def summary_row(metric: str, payload: Dict[str, Optional[float]]) -> str:
-    items = [
-        ("LastWk", format_scaled(metric, payload["series"][-1])),
-        ("WOW", format_change(metric, payload["wow"])),
+    items = (
+        ("LastWk", format_scaled(metric, payload["weekly"][-1])),
+        ("WoW", format_change(payload["wow"])),
         ("6W Avg", format_scaled(metric, payload["avg6"])),
+        ("MTD", format_scaled(metric, payload["mtd"])),
         ("QTD", format_scaled(metric, payload["qtd"])),
         ("YTD", format_scaled(metric, payload["ytd"])),
-        ("MoM", format_change(metric, payload["mom"])),
-    ]
+        ("MoM", format_change(payload["mom"])),
+    )
     return "".join(
         f"""
         <div class="summary-item">
@@ -360,46 +492,58 @@ def summary_row(metric: str, payload: Dict[str, Optional[float]]) -> str:
     )
 
 
+def render_panel(metric_payload: Dict[str, object], weekly_labels: List[str], month_labels: List[str]) -> str:
+    metric = metric_payload["metric"]
+    return f"""
+      <article class="report-panel" id="{metric_payload['metricId']}">
+        <h3>{html.escape(metric_payload['title'])}</h3>
+        {chart_svg(metric, weekly_labels, month_labels, metric_payload['weekly'], metric_payload['monthly'])}
+        <div class="legend">
+          <span class="legend-item"><span class="legend-line actual"></span>Actual</span>
+          <span class="legend-item"><span class="legend-line trend"></span>Trend</span>
+        </div>
+        <div class="summary-grid">
+          {summary_row(metric, metric_payload)}
+        </div>
+      </article>
+    """
+
+
 def build_dashboard(workbook_path: Path) -> str:
     rows = load_sheet_rows(workbook_path, "WBR Dashboard")
     row_map = {idx + 1: row for idx, row in enumerate(rows)}
 
-    labels = [row_map[6].get(col, "") or "" for col in ["B", "C", "D", "E", "F", "G"]]
-    latest_week = row_map[4].get("B", "") or labels[-1]
-    current_month = row_map[4].get("F", "") or "-"
-    current_quarter = row_map[4].get("J", "") or "-"
+    weekly_labels = [(row_map[6].get(col, "") or "").strip() for col in WEEKLY_COLS]
+    month_labels = [(row_map[6].get(col, "") or "").strip() for col in MONTHLY_COLS]
+    latest_week = (row_map[4].get("B", "") or weekly_labels[-1]).strip()
+    current_month = (row_map[4].get("F", "") or "-").strip()
+    current_quarter = (row_map[4].get("J", "") or "-").strip()
+    runway = parse_number(row_map[4].get("O"))
+    inventory_asset = parse_number(row_map[4].get("S"))
 
-    metrics: Dict[str, Dict[str, Optional[float]]] = {}
-    for row_num in range(8, 33):
-        row = row_map.get(row_num, {})
-        metric = (row.get("A") or "").strip()
-        if metric not in METRIC_META:
-            continue
-        metrics[metric] = {
-            "series": [parse_number(row.get(col)) for col in ["B", "C", "D", "E", "F", "G"]],
-            "wow": parse_number(row.get("H")),
-            "avg6": parse_number(row.get("I")),
-            "qtd": parse_number(row.get("J")),
-            "ytd": parse_number(row.get("K")),
-            "mom": parse_number(row.get("L")),
-        }
+    month_match = re.search(r"(\d+)", current_month)
+    month_index = max(0, min(int(month_match.group(1)) - 1, 11)) if month_match else 0
 
-    sections = []
-    for metric in METRIC_ORDER:
-        payload = metrics[metric]
-        meta = METRIC_META[metric]
-        legend_a, legend_b = meta["legend"]
-        sections.append(
+    sections = build_section_blocks(row_map, month_index)
+    total_metrics = sum(len(section["metrics"]) for section in sections)
+
+    section_nav = "".join(
+        f'<a href="#{section["id"]}" class="section-chip">{html.escape(section["title"])}</a>'
+        for section in sections
+    )
+
+    rendered_sections = []
+    for section in sections:
+        panels = "".join(render_panel(metric_payload, weekly_labels, month_labels) for metric_payload in section["metrics"])
+        rendered_sections.append(
             f"""
-            <section class="report-panel">
-              <h2>{html.escape(meta['title'])}</h2>
-              {chart_svg(metric, labels, payload['series'])}
-              <div class="legend">
-                <span class="legend-item"><span class="legend-line actual"></span>{html.escape(legend_a)}</span>
-                <span class="legend-item"><span class="legend-line trend"></span>{html.escape(legend_b)}</span>
+            <section class="report-section" id="{section['id']}">
+              <div class="section-heading">
+                <span>{html.escape(section['title'])}</span>
+                <small>{len(section['metrics'])} metrics</small>
               </div>
-              <div class="summary-grid">
-                {summary_row(metric, payload)}
+              <div class="report-grid">
+                {panels}
               </div>
             </section>
             """
@@ -407,12 +551,18 @@ def build_dashboard(workbook_path: Path) -> str:
 
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
     payload = {
-        "labels": labels,
+        "weeklyLabels": weekly_labels,
+        "monthLabels": month_labels,
         "latestWeek": latest_week,
         "month": current_month,
         "quarter": current_quarter,
-        "metrics": metrics,
+        "runway": runway,
+        "inventoryAsset": inventory_asset,
+        "sections": sections,
     }
+
+    runway_text = f"{runway:.1f}개월" if runway is not None else "-"
+    inventory_asset_text = f"{(inventory_asset / 1000000):.1f}M" if inventory_asset is not None else "-"
 
     return f"""<!doctype html>
 <html lang="ko">
@@ -422,54 +572,132 @@ def build_dashboard(workbook_path: Path) -> str:
   <title>Trace WBR Dashboard</title>
   <style>
     * {{ box-sizing: border-box; }}
+    html {{ scroll-behavior: smooth; }}
     body {{
       margin: 0;
-      background: #f7f7f5;
+      background: {PAGE_BG};
       color: {TEXT};
       font-family: "Avenir Next", "Pretendard", "Apple SD Gothic Neo", sans-serif;
     }}
     .page {{
-      max-width: 1520px;
+      max-width: 1560px;
       margin: 0 auto;
-      padding: 20px 16px 44px;
+      padding: 22px 16px 52px;
     }}
     .masthead {{
       border: 2px solid {BORDER};
       background: #fff;
-      padding: 20px 24px;
+      padding: 24px 26px;
       margin-bottom: 18px;
     }}
     .masthead-top {{
       display: flex;
       justify-content: space-between;
-      gap: 12px;
-      align-items: baseline;
+      align-items: flex-start;
+      gap: 18px;
       flex-wrap: wrap;
     }}
-    .masthead h1 {{
+    .masthead-copy h1 {{
       margin: 0;
-      font-size: 36px;
+      font-size: 38px;
       color: #27272a;
     }}
-    .masthead .meta {{
-      font-size: 18px;
+    .masthead-copy p {{
+      margin: 10px 0 0;
+      font-size: 17px;
       color: #52525b;
     }}
-    .masthead .sub {{
-      margin-top: 8px;
+    .masthead-meta {{
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }}
+    .meta-stat {{
+      min-width: 112px;
+      text-align: right;
+    }}
+    .meta-stat .label {{
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #71717a;
+    }}
+    .meta-stat .value {{
+      margin-top: 6px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #27272a;
+    }}
+    .meta-stat .subvalue {{
+      margin-top: 4px;
       font-size: 14px;
       color: #71717a;
+    }}
+    .masthead-sub {{
+      margin-top: 14px;
+      font-size: 14px;
+      color: #71717a;
+    }}
+    .section-nav {{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }}
+    .section-chip {{
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1.5px solid {BORDER};
+      border-radius: 8px;
+      background: #fff;
+      color: #27272a;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }}
+    .report-section {{
+      margin-bottom: 22px;
+    }}
+    .section-heading {{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 0 4px 10px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #d4d4d8;
+    }}
+    .section-heading span {{
+      font-size: 28px;
+      font-weight: 700;
+      color: #27272a;
+    }}
+    .section-heading small {{
+      font-size: 13px;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }}
+    .report-grid {{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
     }}
     .report-panel {{
       background: #fff;
       border: 2px solid {BORDER};
-      padding: 22px 18px 18px;
-      margin-bottom: 18px;
+      padding: 20px 16px 18px;
     }}
-    .report-panel h2 {{
+    .report-panel h3 {{
       margin: 0 0 4px;
       text-align: center;
       font-size: 30px;
+      line-height: 1.2;
       color: #4b5563;
       font-weight: 700;
     }}
@@ -483,9 +711,14 @@ def build_dashboard(workbook_path: Path) -> str:
       stroke-width: 2;
     }}
     .zero-line {{
-      stroke: #9ca3af;
+      stroke: #a1a1aa;
       stroke-width: 2;
       stroke-dasharray: 8 8;
+    }}
+    .split-line {{
+      stroke: #cbd5e1;
+      stroke-width: 1.5;
+      stroke-dasharray: 5 6;
     }}
     .axis-left {{
       fill: {LEFT_AXIS};
@@ -564,8 +797,8 @@ def build_dashboard(workbook_path: Path) -> str:
     }}
     .summary-grid {{
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
       padding-top: 14px;
       border-top: 1px solid #d4d4d8;
     }}
@@ -574,7 +807,7 @@ def build_dashboard(workbook_path: Path) -> str:
       min-height: 72px;
     }}
     .summary-label {{
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: #27272a;
       margin-bottom: 6px;
@@ -584,27 +817,42 @@ def build_dashboard(workbook_path: Path) -> str:
       color: #3f3f46;
     }}
     .footer {{
+      margin-top: 10px;
       text-align: center;
       font-size: 13px;
       color: #71717a;
-      margin-top: 10px;
+    }}
+    @media (max-width: 1260px) {{
+      .report-grid {{ grid-template-columns: 1fr; }}
+      .summary-grid {{ grid-template-columns: repeat(4, minmax(0, 1fr)); }}
     }}
     @media (max-width: 980px) {{
-      .masthead h1 {{ font-size: 30px; }}
-      .report-panel h2 {{ font-size: 24px; }}
+      .masthead-copy h1 {{ font-size: 30px; }}
+      .meta-stat .value {{ font-size: 22px; }}
+      .section-heading span {{ font-size: 24px; }}
+      .report-panel h3 {{ font-size: 24px; }}
       .axis-left, .axis-right {{ font-size: 16px; }}
       .x-axis, .point-label {{ font-size: 14px; }}
-      .summary-grid {{ grid-template-columns: repeat(3, minmax(0, 1fr)); }}
     }}
     @media (max-width: 640px) {{
       .page {{ padding: 12px 10px 28px; }}
-      .masthead {{ padding: 16px; }}
-      .masthead h1 {{ font-size: 24px; }}
-      .masthead .meta {{ font-size: 15px; }}
+      .masthead {{ padding: 18px 16px; }}
+      .masthead-copy h1 {{ font-size: 24px; }}
+      .masthead-copy p {{ font-size: 15px; }}
+      .masthead-meta {{
+        width: 100%;
+        gap: 16px;
+        justify-content: flex-start;
+      }}
+      .meta-stat {{
+        min-width: 0;
+        text-align: left;
+      }}
       .report-panel {{ padding: 14px 10px; }}
-      .report-panel h2 {{ font-size: 20px; }}
-      .summary-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+      .report-panel h3 {{ font-size: 20px; }}
       .legend {{ font-size: 15px; gap: 16px; }}
+      .summary-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+      .section-chip {{ font-size: 13px; }}
     }}
   </style>
 </head>
@@ -612,15 +860,38 @@ def build_dashboard(workbook_path: Path) -> str:
   <div class="page">
     <section class="masthead">
       <div class="masthead-top">
-        <h1>Trace WBR Dashboard</h1>
-        <div class="meta">{html.escape(str(latest_week))} | {html.escape(str(current_month))} | {html.escape(str(current_quarter))}</div>
+        <div class="masthead-copy">
+          <h1>Trace WBR Dashboard</h1>
+          <p>{html.escape(latest_week)} 기준으로 {total_metrics}개 핵심 지표를 주간과 월간 흐름으로 한 번에 봅니다.</p>
+        </div>
+        <div class="masthead-meta">
+          <div class="meta-stat">
+            <div class="label">Month</div>
+            <div class="value">{html.escape(current_month)}</div>
+            <div class="subvalue">{html.escape(current_quarter)}</div>
+          </div>
+          <div class="meta-stat">
+            <div class="label">Runway</div>
+            <div class="value">{html.escape(runway_text)}</div>
+            <div class="subvalue">운영비 포함</div>
+          </div>
+          <div class="meta-stat">
+            <div class="label">Inventory Asset</div>
+            <div class="value">{html.escape(inventory_asset_text)}</div>
+            <div class="subvalue">KRW</div>
+          </div>
+        </div>
       </div>
-      <div class="sub">Source: {html.escape(workbook_path.name)} | Domain: https://wbr-dashboard.tracecorp.co.kr | Generated: {generated_at}</div>
+      <div class="masthead-sub">Source: {html.escape(workbook_path.name)} | Domain: https://wbr-dashboard.tracecorp.co.kr | Generated: {generated_at}</div>
     </section>
 
-    {''.join(sections)}
+    <nav class="section-nav" aria-label="Dashboard Sections">
+      {section_nav}
+    </nav>
 
-    <div class="footer">Auto-generated from the latest WBR master workbook.</div>
+    {''.join(rendered_sections)}
+
+    <div class="footer">Auto-generated from the latest WBR dashboard workbook.</div>
   </div>
   <script type="application/json" id="wbr-data">{html.escape(json.dumps(payload, ensure_ascii=False))}</script>
 </body>
