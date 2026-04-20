@@ -17,6 +17,7 @@ SHARED_DRIVE_DIR = Path(
 )
 OUTPUT_PATHS = [ROOT / "wbr_dashboard.html", ROOT / "index.html"]
 WORKBOOK_PATTERN = re.compile(r"Trace_WBR_Master_W(\d+)\.xlsx$")
+CURRENT_WORKBOOK_PATTERN = re.compile(r"^2026\s+.*WBR\.xlsx$", re.IGNORECASE)
 
 NS = {
     "a": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
@@ -85,15 +86,64 @@ TITLE_OVERRIDES = {
     "└ 재고 확보일수 (DOS)": "재고 확보일수 (DOS)",
 }
 
+DASHBOARD_SECTIONS = (
+    (
+        "재무 결과",
+        (
+            ("총매출", ("총매출", "순매출")),
+            ("매출총이익", ("매출총이익",)),
+            ("공헌이익", ("공헌이익",)),
+            ("공헌이익률", ("공헌이익률",)),
+            ("영업이익", ("영업이익",)),
+            ("영업이익률", ("영업이익률",)),
+            ("영업현금흐름 (OCF)", ("영업현금흐름 (OCF)", "영업현금흐름")),
+            ("변동비", ("변동비", "기타 변동비")),
+            ("고정비", ("고정비",)),
+            ("현금잔액", ("현금잔액",)),
+        ),
+    ),
+    (
+        "트래픽 / 수요 창출",
+        (
+            ("마케팅비: 내부 (광고)", ("마케팅비: 내부 (광고)", "내부 마케팅비(광고)")),
+            ("마케팅비: 외부 (체험단, 슬롯)", ("마케팅비: 외부 (체험단, 슬롯)", "외부 마케팅비(체험단, 슬롯)")),
+            ("순방문자수", ("순방문자수",)),
+            ("실질 전환율 (CVR)", ("실질 전환율 (CVR)", "실 전환율 (CVR)")),
+            ("순주문수", ("순주문수",)),
+            ("└ 체험단 주문수", ("└ 체험단 주문수", "체험단 주문수")),
+            ("실질 객단가 (AOV)", ("실질 객단가 (AOV)", "실 객단가 (AOV)")),
+            ("ROAS", ("ROAS", "ROAS (쿠팡)")),
+            ("TACOS (총 마케팅비%)", ("TACOS (총 마케팅비%)",)),
+            ("마케팅(외부) ROI", ("마케팅(외부) ROI",)),
+            ("주문당 마케팅비", ("주문당 마케팅비",)),
+        ),
+    ),
+    (
+        "풀필먼트 / 운영",
+        (
+            ("재고수량", ("재고수량",)),
+            ("└ 재고 확보일수 (DOS)", ("└ 재고 확보일수 (DOS)", "재고 확보일수 (DOS)")),
+        ),
+    ),
+)
+
 
 def find_latest_workbook() -> Path:
+    current_candidates = [
+        path
+        for path in SHARED_DRIVE_DIR.glob("*.xlsx")
+        if not path.name.startswith("~$") and CURRENT_WORKBOOK_PATTERN.fullmatch(path.name)
+    ]
+    if current_candidates:
+        return max(current_candidates, key=lambda path: path.stat().st_mtime)
+
     candidates = []
     for path in SHARED_DRIVE_DIR.glob("Trace_WBR_Master_W*.xlsx"):
         match = WORKBOOK_PATTERN.fullmatch(path.name)
         if match:
             candidates.append((int(match.group(1)), path))
     if not candidates:
-        raise FileNotFoundError(f"No Trace_WBR_Master_W*.xlsx file found in {SHARED_DRIVE_DIR}")
+        raise FileNotFoundError(f"No 2026 WBR or Trace_WBR_Master_W*.xlsx file found in {SHARED_DRIVE_DIR}")
     return max(candidates, key=lambda item: item[0])[1]
 
 
@@ -318,44 +368,34 @@ def title_text(metric: str, index: int) -> str:
 
 def build_section_blocks(row_map: Dict[int, Dict[str, Optional[str]]], month_index: int) -> List[Dict[str, object]]:
     sections: List[Dict[str, object]] = []
-    current_section: Optional[Dict[str, object]] = None
     metric_index = 1
-    section_index = 1
 
-    for row_num in SECTION_HEADER_ROWS:
-        row = row_map.get(row_num, {})
-        label = (row.get("A") or "").strip()
-        if not label:
-            continue
+    rows_by_label = {
+        (row.get("A") or "").strip(): row
+        for row in row_map.values()
+        if (row.get("A") or "").strip()
+    }
 
-        weekly_has_data = any(parse_number(row.get(col)) is not None for col in WEEKLY_COLS)
-        monthly_has_data = any(parse_number(row.get(col)) is not None for col in MONTHLY_COLS)
-
-        if not weekly_has_data and not monthly_has_data:
-            current_section = {"title": label, "id": f"section-{section_index}", "metrics": []}
-            sections.append(current_section)
-            section_index += 1
-            continue
-
-        if current_section is None:
-            current_section = {"title": "기타 지표", "id": "misc", "metrics": []}
-            sections.append(current_section)
-
-        payload = {
-            "metric": label,
-            "metricId": f"metric-{metric_index}",
-            "title": title_text(label, metric_index),
-            "weekly": [parse_number(row.get(col)) for col in WEEKLY_COLS],
-            "monthly": [parse_number(row.get(col)) for col in MONTHLY_COLS],
-            "wow": parse_number(row.get("H")),
-            "avg6": parse_number(row.get("I")),
-            "qtd": parse_number(row.get("J")),
-            "ytd": parse_number(row.get("K")),
-            "mom": parse_number(row.get("L")),
-            "mtd": parse_number(row.get(MONTHLY_COLS[month_index])) if 0 <= month_index < len(MONTHLY_COLS) else None,
-        }
-        current_section["metrics"].append(payload)
-        metric_index += 1
+    for section_index, (section_title, metrics) in enumerate(DASHBOARD_SECTIONS, start=1):
+        current_section = {"title": section_title, "id": f"section-{section_index}", "metrics": []}
+        for display_metric, aliases in metrics:
+            row = next((rows_by_label[alias] for alias in aliases if alias in rows_by_label), {})
+            payload = {
+                "metric": display_metric,
+                "metricId": f"metric-{metric_index}",
+                "title": title_text(display_metric, metric_index),
+                "weekly": [parse_number(row.get(col)) for col in WEEKLY_COLS],
+                "monthly": [parse_number(row.get(col)) for col in MONTHLY_COLS],
+                "wow": parse_number(row.get("H")),
+                "avg6": parse_number(row.get("I")),
+                "qtd": parse_number(row.get("J")),
+                "ytd": parse_number(row.get("K")),
+                "mom": parse_number(row.get("L")),
+                "mtd": parse_number(row.get(MONTHLY_COLS[month_index])) if 0 <= month_index < len(MONTHLY_COLS) else None,
+            }
+            current_section["metrics"].append(payload)
+            metric_index += 1
+        sections.append(current_section)
 
     return [section for section in sections if section["metrics"]]
 
