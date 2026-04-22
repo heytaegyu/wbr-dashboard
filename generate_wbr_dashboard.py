@@ -704,7 +704,11 @@ def build_dashboard(workbook_path: Path) -> str:
       margin-bottom: 18px;
     }}
     .masthead-top {{
-      display: block;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      flex-wrap: wrap;
     }}
     .masthead-copy h1 {{
       margin: 0;
@@ -725,11 +729,11 @@ def build_dashboard(workbook_path: Path) -> str:
     }}
     .masthead-meta {{
       display: flex;
-      gap: 44px;
+      gap: 28px;
       flex-wrap: wrap;
       align-items: flex-start;
-      justify-content: flex-start;
-      margin-top: 18px;
+      justify-content: flex-end;
+      margin-top: 0;
     }}
     .meta-stat {{
       min-width: 112px;
