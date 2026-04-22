@@ -37,33 +37,30 @@ WEEKLY_COLS = ["B", "C", "D", "E", "F", "G"]
 MONTHLY_COLS = ["M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"]
 
 MONEY_METRICS = {
-    "총매출",
     "순매출",
     "매출총이익",
     "공헌이익",
     "영업이익",
     "영업현금흐름 (OCF)",
     "영업현금흐름",
-    "변동비",
+    "기타 변동비",
     "고정비",
     "현금잔액",
-    "마케팅비: 내부 (광고)",
-    "마케팅비: 외부 (체험단, 슬롯)",
-    "실질 객단가 (AOV)",
+    "내부 마케팅비(광고)",
+    "외부 마케팅비(체험단, 슬롯)",
+    "실 객단가 (AOV)",
     "주문당 마케팅비",
 }
 
 PERCENT_METRICS = {
     "공헌이익률",
     "영업이익률",
-    "실질 전환율 (CVR)",
+    "실 전환율 (CVR)",
     "TACOS (총 마케팅비%)",
 }
 
 RATIO_METRICS = {
-    "ROAS",
-    "ROAS (쿠팡광고)",
-    "마케팅(외부) ROI",
+    "체험단 ROI",
 }
 
 DAYS_METRICS = {"└ 재고 확보일수 (DOS)"}
@@ -79,8 +76,8 @@ SECTION_HEADER_ROWS = range(7, 34)
 SUMMARY_LABELS = ("LastWk", "WoW", "6W Avg", "MTD", "QTD", "YTD", "MoM")
 TITLE_OVERRIDES = {
     "영업현금흐름 (OCF)": "영업현금흐름 (OCF)",
-    "실질 전환율 (CVR)": "실질 전환율 (CVR)",
-    "실질 객단가 (AOV)": "실질 객단가 (AOV)",
+    "실 전환율 (CVR)": "실 전환율 (CVR)",
+    "실 객단가 (AOV)": "실 객단가 (AOV)",
     "TACOS (총 마케팅비%)": "TACOS",
     "└ 체험단 주문수": "체험단 주문수",
     "└ 재고 확보일수 (DOS)": "재고 확보일수 (DOS)",
@@ -90,31 +87,30 @@ DASHBOARD_SECTIONS = (
     (
         "재무 결과",
         (
-            ("총매출", ("총매출", "순매출")),
+            ("순매출", ("순매출",)),
             ("매출총이익", ("매출총이익",)),
             ("공헌이익", ("공헌이익",)),
             ("공헌이익률", ("공헌이익률",)),
             ("영업이익", ("영업이익",)),
             ("영업이익률", ("영업이익률",)),
             ("영업현금흐름 (OCF)", ("영업현금흐름 (OCF)", "영업현금흐름")),
-            ("변동비", ("변동비", "기타 변동비")),
+            ("기타 변동비", ("기타 변동비",)),
             ("고정비", ("고정비",)),
             ("현금잔액", ("현금잔액",)),
         ),
     ),
     (
-        "트래픽 / 수요 창출",
+        "유입 / 전환 / Marketing",
         (
-            ("마케팅비: 내부 (광고)", ("마케팅비: 내부 (광고)", "내부 마케팅비(광고)")),
-            ("마케팅비: 외부 (체험단, 슬롯)", ("마케팅비: 외부 (체험단, 슬롯)", "외부 마케팅비(체험단, 슬롯)")),
+            ("내부 마케팅비(광고)", ("내부 마케팅비(광고)",)),
+            ("외부 마케팅비(체험단, 슬롯)", ("외부 마케팅비(체험단, 슬롯)",)),
             ("순방문자수", ("순방문자수",)),
-            ("실질 전환율 (CVR)", ("실질 전환율 (CVR)", "실 전환율 (CVR)")),
+            ("실 전환율 (CVR)", ("실 전환율 (CVR)",)),
             ("순주문수", ("순주문수",)),
             ("└ 체험단 주문수", ("└ 체험단 주문수", "체험단 주문수")),
-            ("실질 객단가 (AOV)", ("실질 객단가 (AOV)", "실 객단가 (AOV)")),
-            ("ROAS", ("ROAS", "ROAS (쿠팡)")),
+            ("실 객단가 (AOV)", ("실 객단가 (AOV)",)),
             ("TACOS (총 마케팅비%)", ("TACOS (총 마케팅비%)",)),
-            ("마케팅(외부) ROI", ("마케팅(외부) ROI",)),
+            ("체험단 ROI", ("체험단 ROI",)),
             ("주문당 마케팅비", ("주문당 마케팅비",)),
         ),
     ),
@@ -537,7 +533,7 @@ def render_panel(metric_payload: Dict[str, object], weekly_labels: List[str], mo
     return f"""
       <article class="report-panel" id="{metric_payload['metricId']}">
         <h3>{html.escape(metric_payload['title'])}</h3>
-        {chart_svg(metric, weekly_labels, month_labels, metric_payload['weekly'], metric_payload['monthly'])}
+{chart_svg(metric, weekly_labels, month_labels, metric_payload['weekly'], metric_payload['monthly'])}
         <div class="legend">
           <span class="legend-item"><span class="legend-line actual"></span>Actual</span>
           <span class="legend-item"><span class="legend-line trend"></span>Trend</span>
