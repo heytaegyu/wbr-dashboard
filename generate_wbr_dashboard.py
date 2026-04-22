@@ -535,6 +535,36 @@ def find_metric_payload(sections: List[Dict[str, object]], metric: str) -> Optio
     return None
 
 
+def format_krw_man(value: Optional[float], decimals: int = 1) -> str:
+    if value is None:
+        return "-"
+    amount = abs(value) / 10000
+    text = f"{amount:.{decimals}f}".rstrip("0").rstrip(".")
+    return f"{'(' if value < 0 else ''}{text}만원{')' if value < 0 else ''}"
+
+
+def format_wow_phrase(value: Optional[float], decrease_word: str = "감소", increase_word: str = "증가") -> str:
+    if value is None:
+        return "전주 대비 변동 없음"
+    direction = increase_word if value >= 0 else decrease_word
+    return f"전주 대비 {abs(value) * 100:.1f}% {direction}"
+
+
+def format_pp_change(value: Optional[float]) -> str:
+    if value is None:
+        return "변동 없음"
+    return f"{abs(value) * 100:.1f}%p {'상승' if value >= 0 else '하락'}"
+
+
+def risk_level(*values: Optional[float]) -> str:
+    negatives = sum(1 for value in values if value is not None and value < 0)
+    if negatives >= 3:
+        return "위험"
+    if negatives >= 1:
+        return "주의"
+    return "양호"
+
+
 def format_weekly_summary_value(metric: str, value: float) -> str:
     if metric_kind(metric) == "money" and value < 0:
         return f"({format_scaled(metric, abs(value), 1)})"
@@ -542,17 +572,35 @@ def format_weekly_summary_value(metric: str, value: float) -> str:
 
 
 def build_weekly_summary(sections: List[Dict[str, object]], inventory_asset: Optional[float]) -> str:
-    parts = []
-    for metric in ("순매출", "영업이익", "체험단 ROI"):
-        metric_payload = find_metric_payload(sections, metric)
-        if not metric_payload:
-            continue
-        latest_value = metric_payload["weekly"][-1]
-        if latest_value is not None:
-            parts.append(f"{metric} {format_weekly_summary_value(metric, latest_value)}")
-    if inventory_asset is not None:
-        parts.append(f"재고자산 {(inventory_asset / 1000000):.1f}M")
-    return "이번 주: " + " · ".join(parts) if parts else ""
+    net_sales = find_metric_payload(sections, "순매출")
+    visitors = find_metric_payload(sections, "순방문자수")
+    cvr = find_metric_payload(sections, "실 전환율 (CVR)")
+    orders = find_metric_payload(sections, "순주문수")
+    contribution = find_metric_payload(sections, "공헌이익")
+    operating = find_metric_payload(sections, "영업이익")
+    ocf = find_metric_payload(sections, "영업현금흐름 (OCF)")
+
+    net_sales_value = net_sales["weekly"][-1] if net_sales else None
+    orders_value = orders["weekly"][-1] if orders else None
+    sales_sentence = (
+        f"이번 주 한 줄: 순매출은 {format_krw_man(net_sales_value)}으로 "
+        f"{format_wow_phrase(net_sales.get('wow') if net_sales else None)}했고, "
+        f"방문자 수 급감({format_change(visitors.get('wow') if visitors else None)})과 "
+        f"CVR {format_pp_change(cvr.get('wow') if cvr else None)}이 겹치며 "
+        f"주문수가 {format_scaled('순주문수', orders_value)}건까지 내려왔다."
+    )
+
+    contribution_value = contribution["weekly"][-1] if contribution else None
+    operating_value = operating["weekly"][-1] if operating else None
+    ocf_value = ocf["weekly"][-1] if ocf else None
+    risk = risk_level(contribution_value, operating_value, ocf_value)
+    risk_sentence = (
+        f"리스크 상태: {risk} - 공헌이익 {format_krw_man(contribution_value)}, "
+        f"영업이익 {format_krw_man(operating_value)}, OCF {format_krw_man(ocf_value)}으로 "
+        f"수익성과 현금흐름이 다시 약화됐다."
+    )
+
+    return f"{sales_sentence} {risk_sentence}"
 
 
 def render_panel(metric_payload: Dict[str, object], weekly_labels: List[str], month_labels: List[str]) -> str:
