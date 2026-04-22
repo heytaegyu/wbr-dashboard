@@ -26,11 +26,7 @@
       margin-bottom: 18px;
     }
     .masthead-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 18px;
-      flex-wrap: wrap;
+      display: block;
     }
     .masthead-copy h1 {
       margin: 0;
@@ -47,17 +43,19 @@
       font-size: 15px;
       font-weight: 700;
       color: #27272a;
+      line-height: 1.45;
     }
     .masthead-meta {
       display: flex;
-      gap: 28px;
+      gap: 44px;
       flex-wrap: wrap;
       align-items: flex-start;
-      justify-content: flex-end;
+      justify-content: flex-start;
+      margin-top: 18px;
     }
     .meta-stat {
       min-width: 112px;
-      text-align: right;
+      text-align: center;
     }
     .meta-stat .label {
       font-size: 12px;
@@ -304,7 +302,7 @@
         <div class="masthead-copy">
           <h1>Trace WBR Dashboard</h1>
           <p>W16 | 4/13~4/19 기준으로 22개 핵심 지표를 주간과 월간 흐름으로 한 번에 봅니다.</p>
-          <div class="week-summary">이번 주 한 줄: 순매출은 65만원으로 전주 대비 34.5% 감소했고, 방문자 수 급감(-40.2%)과 CVR 0.6%p 하락이 겹치며 주문수가 35건까지 내려왔다. 리스크 상태: 위험 - 공헌이익 (12.9만원), 영업이익 (23.5만원), OCF (23.4만원)으로 수익성과 현금흐름이 다시 약화됐다.</div>
+          <div class="week-summary">이번 주 한 줄: 순매출은 65만원으로 전주 대비 34.5% 감소했고, 방문자 수 급감(-40.2%)과 CVR 0.6%p 하락이 겹치며 주문수가 35건까지 내려왔다.<br>리스크 상태: 위험 - 공헌이익 (12.9만원), 영업이익 (23.5만원), OCF (23.4만원)으로 수익성과 현금흐름이 다시 약화됐다.</div>
         </div>
         <div class="masthead-meta">
           <div class="meta-stat">
@@ -324,7 +322,7 @@
           </div>
         </div>
       </div>
-      <div class="masthead-sub">Source: 2026 트레이스 WBR.xlsx | Domain: https://wbr-dashboard.tracecorp.co.kr | Generated: 2026-04-22 11:26</div>
+      <div class="masthead-sub">Source: 2026 트레이스 WBR.xlsx | Domain: https://wbr-dashboard.tracecorp.co.kr | Generated: 2026-04-22 11:28</div>
     </section>
 
     <nav class="section-nav" aria-label="Dashboard Sections">

@@ -600,7 +600,7 @@ def build_weekly_summary(sections: List[Dict[str, object]], inventory_asset: Opt
         f"수익성과 현금흐름이 다시 약화됐다."
     )
 
-    return f"{sales_sentence} {risk_sentence}"
+    return f"{sales_sentence}<br>{risk_sentence}"
 
 
 def render_panel(metric_payload: Dict[str, object], weekly_labels: List[str], month_labels: List[str]) -> str:
@@ -704,11 +704,7 @@ def build_dashboard(workbook_path: Path) -> str:
       margin-bottom: 18px;
     }}
     .masthead-top {{
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 18px;
-      flex-wrap: wrap;
+      display: block;
     }}
     .masthead-copy h1 {{
       margin: 0;
@@ -725,17 +721,19 @@ def build_dashboard(workbook_path: Path) -> str:
       font-size: 15px;
       font-weight: 700;
       color: #27272a;
+      line-height: 1.45;
     }}
     .masthead-meta {{
       display: flex;
-      gap: 28px;
+      gap: 44px;
       flex-wrap: wrap;
       align-items: flex-start;
-      justify-content: flex-end;
+      justify-content: flex-start;
+      margin-top: 18px;
     }}
     .meta-stat {{
       min-width: 112px;
-      text-align: right;
+      text-align: center;
     }}
     .meta-stat .label {{
       font-size: 12px;
@@ -982,7 +980,7 @@ def build_dashboard(workbook_path: Path) -> str:
         <div class="masthead-copy">
           <h1>Trace WBR Dashboard</h1>
           <p>{html.escape(latest_week)} 기준으로 {total_metrics}개 핵심 지표를 주간과 월간 흐름으로 한 번에 봅니다.</p>
-          <div class="week-summary">{html.escape(weekly_summary)}</div>
+          <div class="week-summary">{weekly_summary}</div>
         </div>
         <div class="masthead-meta">
           <div class="meta-stat">
