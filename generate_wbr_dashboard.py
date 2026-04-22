@@ -57,11 +57,10 @@ PERCENT_METRICS = {
     "영업이익률",
     "실 전환율 (CVR)",
     "TACOS (총 마케팅비%)",
-}
-
-RATIO_METRICS = {
     "체험단 ROI",
 }
+
+RATIO_METRICS = set()
 
 DAYS_METRICS = {"└ 재고 확보일수 (DOS)"}
 
@@ -100,7 +99,7 @@ DASHBOARD_SECTIONS = (
         ),
     ),
     (
-        "유입 / 전환 / Marketing",
+        "마케팅. 유입 / 전환",
         (
             ("내부 마케팅비(광고)", ("내부 마케팅비(광고)",)),
             ("외부 마케팅비(체험단, 슬롯)", ("외부 마케팅비(체험단, 슬롯)",)),
@@ -115,7 +114,7 @@ DASHBOARD_SECTIONS = (
         ),
     ),
     (
-        "풀필먼트 / 운영",
+        "풀필먼트: 물류",
         (
             ("재고수량", ("재고수량",)),
             ("└ 재고 확보일수 (DOS)", ("└ 재고 확보일수 (DOS)", "재고 확보일수 (DOS)")),
@@ -528,6 +527,34 @@ def summary_row(metric: str, payload: Dict[str, Optional[float]]) -> str:
     )
 
 
+def find_metric_payload(sections: List[Dict[str, object]], metric: str) -> Optional[Dict[str, object]]:
+    for section in sections:
+        for metric_payload in section["metrics"]:
+            if metric_payload["metric"] == metric:
+                return metric_payload
+    return None
+
+
+def format_weekly_summary_value(metric: str, value: float) -> str:
+    if metric_kind(metric) == "money" and value < 0:
+        return f"({format_scaled(metric, abs(value), 1)})"
+    return format_scaled(metric, value, 1)
+
+
+def build_weekly_summary(sections: List[Dict[str, object]], inventory_asset: Optional[float]) -> str:
+    parts = []
+    for metric in ("순매출", "영업이익", "체험단 ROI"):
+        metric_payload = find_metric_payload(sections, metric)
+        if not metric_payload:
+            continue
+        latest_value = metric_payload["weekly"][-1]
+        if latest_value is not None:
+            parts.append(f"{metric} {format_weekly_summary_value(metric, latest_value)}")
+    if inventory_asset is not None:
+        parts.append(f"재고자산 {(inventory_asset / 1000000):.1f}M")
+    return "이번 주: " + " · ".join(parts) if parts else ""
+
+
 def render_panel(metric_payload: Dict[str, object], weekly_labels: List[str], month_labels: List[str]) -> str:
     metric = metric_payload["metric"]
     return f"""
@@ -555,13 +582,14 @@ def build_dashboard(workbook_path: Path) -> str:
     current_month = (row_map[4].get("F", "") or "-").strip()
     current_quarter = (row_map[4].get("J", "") or "-").strip()
     runway = parse_number(row_map[4].get("O"))
-    inventory_asset = parse_number(row_map[4].get("S"))
+    inventory_asset = parse_number(row_map[4].get("W"))
 
     month_match = re.search(r"(\d+)", current_month)
     month_index = max(0, min(int(month_match.group(1)) - 1, 11)) if month_match else 0
 
     sections = build_section_blocks(row_map, month_index)
     total_metrics = sum(len(section["metrics"]) for section in sections)
+    weekly_summary = build_weekly_summary(sections, inventory_asset)
 
     section_nav = "".join(
         f'<a href="#{section["id"]}" class="section-chip">{html.escape(section["title"])}</a>'
@@ -643,6 +671,12 @@ def build_dashboard(workbook_path: Path) -> str:
       margin: 10px 0 0;
       font-size: 17px;
       color: #52525b;
+    }}
+    .week-summary {{
+      margin-top: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #27272a;
     }}
     .masthead-meta {{
       display: flex;
@@ -900,6 +934,7 @@ def build_dashboard(workbook_path: Path) -> str:
         <div class="masthead-copy">
           <h1>Trace WBR Dashboard</h1>
           <p>{html.escape(latest_week)} 기준으로 {total_metrics}개 핵심 지표를 주간과 월간 흐름으로 한 번에 봅니다.</p>
+          <div class="week-summary">{html.escape(weekly_summary)}</div>
         </div>
         <div class="masthead-meta">
           <div class="meta-stat">
