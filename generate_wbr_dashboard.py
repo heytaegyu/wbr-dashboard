@@ -610,6 +610,7 @@ def build_dashboard(workbook_path: Path) -> str:
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Trace WBR Dashboard</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <style>
     * {{ box-sizing: border-box; }}
     html {{ scroll-behavior: smooth; }}
